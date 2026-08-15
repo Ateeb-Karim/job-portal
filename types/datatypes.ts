@@ -32,7 +32,7 @@ export interface Job {
   id: string;
   title: string;
   location: string;
-  salary: string;
+  salary?: string;
   type: JobType;
   postedDate: string;
   description: string;

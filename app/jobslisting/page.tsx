@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useJobs } from "@/context/jobcontext";
 import JobCard from "@/components/jobcard";
 import { JobType } from "@/types/datatypes";
@@ -13,7 +14,6 @@ import {
   Heart,
   Briefcase,
 } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 
 const JOB_TYPES: (JobType | "All")[] = [
   "All",
@@ -23,7 +23,7 @@ const JOB_TYPES: (JobType | "All")[] = [
   "Remote",
 ];
 
-export default function JobsPage() {
+function JobsPageContent() {
   const {
     jobs,
     filteredJobs,
@@ -34,8 +34,23 @@ export default function JobsPage() {
     userRole,
   } = useJobs();
 
+  const router = useRouter();
   const searchParams = useSearchParams();
   const showOnlySaved = searchParams.get("saved") === "true";
+
+  useEffect(() => {
+    const title = searchParams.get("title");
+    const location = searchParams.get("location");
+    const type = searchParams.get("type") as JobType | null;
+
+    if (title || location || type) {
+      setFilters((prev) => ({
+        title: title ?? prev.title,
+        location: location ?? prev.location,
+        type: type ?? prev.type,
+      }));
+    }
+  }, [searchParams]);
 
   const displayedJobs = useMemo(() => {
     if (showOnlySaved) {
@@ -54,6 +69,13 @@ export default function JobsPage() {
 
   const handleTypeSelect = (type: JobType | "All") => {
     setFilters((prev) => ({ ...prev, type }));
+  };
+
+  const handleResetAll = () => {
+    resetFilters();
+    if (showOnlySaved) {
+      router.replace("/jobslisting");
+    }
   };
 
   return (
@@ -76,12 +98,7 @@ export default function JobsPage() {
               filters.type !== "All" ||
               showOnlySaved) && (
               <button
-                onClick={() => {
-                  resetFilters();
-                  if (showOnlySaved) {
-                    window.history.replaceState(null, "", "/jobs");
-                  }
-                }}
+                onClick={handleResetAll}
                 className="inline-flex items-center gap-1.5 text-xs font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 px-3 py-2 rounded-lg transition-colors self-start sm:self-auto"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
@@ -90,6 +107,7 @@ export default function JobsPage() {
             )}
           </div>
         </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
           <aside className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-6 lg:col-span-1">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
@@ -98,6 +116,7 @@ export default function JobsPage() {
                 Filter Jobs
               </h2>
             </div>
+
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-slate-700">
                 Job Title or Company
@@ -109,7 +128,7 @@ export default function JobsPage() {
                   placeholder="e.g. Next.js, Frontend"
                   value={filters.title}
                   onChange={handleTitleChange}
-                  className="w-full pl-9 pr-3 py-2  border rounded-lg text-xs text-slate-900 focus:outline-none focus:border-indigo-500 focus:bg-white transition-colors"
+                  className="w-full pl-9 pr-3 py-2 border rounded-lg text-xs text-slate-900 focus:outline-none focus:border-indigo-500 focus:bg-white transition-colors"
                 />
                 {filters.title && (
                   <button
@@ -120,7 +139,8 @@ export default function JobsPage() {
                   </button>
                 )}
               </div>
-            </div>{" "}
+            </div>
+
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-slate-700">
                 Location
@@ -132,7 +152,7 @@ export default function JobsPage() {
                   placeholder="City or Remote"
                   value={filters.location}
                   onChange={handleLocationChange}
-                  className="w-full pl-9 pr-3 py-2 bg-slate-50 border  rounded-lg text-xs text-slate-900 focus:outline-none transition-colors"
+                  className="w-full pl-9 pr-3 py-2 bg-slate-50 border rounded-lg text-xs text-slate-900 focus:outline-none transition-colors"
                 />
                 {filters.location && (
                   <button
@@ -144,6 +164,7 @@ export default function JobsPage() {
                 )}
               </div>
             </div>
+
             <div className="space-y-2">
               <label className="text-xs font-semibold text-slate-700">
                 Employment Type
@@ -170,10 +191,13 @@ export default function JobsPage() {
                 })}
               </div>
             </div>
+
             {userRole === "candidate" && (
               <div className="pt-4 border-t border-slate-100">
-                <a
-                  href={showOnlySaved ? "/jobs" : "/jobs?saved=true"}
+                <button
+                  onClick={() =>
+                    router.push(showOnlySaved ? "/jobs" : "/jobs?saved=true")
+                  }
                   className={`w-full flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-semibold border transition-all ${
                     showOnlySaved
                       ? "bg-rose-500 text-white border-rose-600"
@@ -186,10 +210,11 @@ export default function JobsPage() {
                   {showOnlySaved
                     ? "Showing Saved Jobs"
                     : `View Saved (${savedJobIds.length})`}
-                </a>
+                </button>
               </div>
             )}
           </aside>
+
           <main className="lg:col-span-3 space-y-4">
             {(filters.title || filters.location || filters.type !== "All") && (
               <div className="flex flex-wrap items-center gap-2 bg-white p-3 rounded-lg border border-slate-200 text-xs">
@@ -227,6 +252,7 @@ export default function JobsPage() {
                 )}
               </div>
             )}
+
             {displayedJobs.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {displayedJobs.map((job) => (
@@ -249,7 +275,7 @@ export default function JobsPage() {
                   </p>
                 </div>
                 <button
-                  onClick={resetFilters}
+                  onClick={handleResetAll}
                   className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-4 py-2 rounded-lg transition-colors inline-flex items-center gap-1.5"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
@@ -261,5 +287,13 @@ export default function JobsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function JobsPage() {
+  return (
+    <Suspense fallback={null}>
+      <JobsPageContent />
+    </Suspense>
   );
 }

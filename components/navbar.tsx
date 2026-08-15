@@ -45,9 +45,9 @@ export default function Navbar() {
               Home
             </Link>
             <Link
-              href="/jobs"
+              href="/jobslisting"
               className={`text-sm font-medium transition-colors ${
-                isActive("/jobs")
+                isActive("/jobslisting")
                   ? "text-indigo-600 font-semibold"
                   : "text-slate-600 hover:text-indigo-600"
               }`}
@@ -57,7 +57,7 @@ export default function Navbar() {
 
             {userRole === "candidate" && (
               <Link
-                href="/jobs?saved=true"
+                href="/jobslisting?saved=true"
                 className="flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors relative"
               >
                 <Heart className="w-4 h-4 text-rose-500 fill-rose-500" />
@@ -158,7 +158,7 @@ export default function Navbar() {
             Home
           </Link>
           <Link
-            href="/jobs"
+            href="/jobslisting"
             onClick={() => setIsMobileMenuOpen(false)}
             className="block py-2 text-base font-medium text-slate-700 hover:text-indigo-600"
           >
@@ -167,7 +167,7 @@ export default function Navbar() {
 
           {userRole === "candidate" && (
             <Link
-              href="/jobs?saved=true"
+              href="/jobslisting?saved=true"
               onClick={() => setIsMobileMenuOpen(false)}
               className="flex items-center gap-2 py-2 text-base font-medium text-slate-700 hover:text-indigo-600"
             >

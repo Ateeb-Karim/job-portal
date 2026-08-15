@@ -7,24 +7,16 @@ interface JobCardProps {
   job: Job;
 }
 
+const TYPE_BADGE_STYLES: Record<Job["type"], string> = {
+  "Full-time": "bg-emerald-50 text-emerald-700 border-emerald-200",
+  "Part-time": "bg-blue-50 text-blue-700 border-blue-200",
+  Internship: "bg-amber-50 text-amber-700 border-amber-200",
+  Remote: "bg-indigo-50 text-indigo-700 border-indigo-200",
+};
+
 export default function JobCard({ job }: JobCardProps) {
   const { savedJobIds, toggleSaveJob, userRole } = useJobs();
   const isSaved = savedJobIds.includes(job.id);
-
-  const getTypeBadgeColor = (type: string) => {
-    switch (type) {
-      case "Full-time":
-        return "bg-emerald-50 text-emerald-700 border-emerald-200";
-      case "Part-time":
-        return "bg-blue-50 text-blue-700 border-blue-200";
-      case "Internship":
-        return "bg-amber-50 text-amber-700 border-amber-200";
-      case "Contract":
-        return "bg-purple-50 text-purple-700 border-purple-200";
-      default:
-        return "bg-slate-100 text-slate-700 border-slate-200";
-    }
-  };
 
   return (
     <div className="group bg-white rounded-xl border border-slate-200 p-6 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between relative">
@@ -66,7 +58,7 @@ export default function JobCard({ job }: JobCardProps) {
 
         <div className="flex flex-wrap items-center gap-2 mb-4">
           <span
-            className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border ${getTypeBadgeColor(job.type)}`}
+            className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border ${TYPE_BADGE_STYLES[job.type]}`}
           >
             {job.type}
           </span>

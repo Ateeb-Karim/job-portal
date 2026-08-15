@@ -1,28 +1,24 @@
-"use client";
+import Link from "next/link";
 
-import { useJobs } from "@/context/jobcontext";
-import { useRouter } from "next/navigation";
-import { JobType } from "@/types/datatypes";
-
-interface buttonPROPS {
+interface ButtonProps {
   value: string;
   title: string;
-  type: JobType | "All";
+  type?: string;
 }
 
-export default function Button({ value, title, type }: buttonPROPS) {
-  const router = useRouter();
-  const { setFilters } = useJobs();
+export default function Button({ value, title, type = "All" }: ButtonProps) {
+  const params = new URLSearchParams();
+  params.set("title", value);
+  if (type !== "All") {
+    params.set("type", type);
+  }
 
   return (
-    <button
-      onClick={() => {
-        setFilters((p) => ({ ...p, title: title, type: type }));
-        router.push("/jobs");
-      }}
-      className="underline hover:text-white transition-colors"
+    <Link
+      href={`/jobs?${params.toString()}`}
+      className="inline-flex items-center rounded-full bg-indigo-800/50 border border-indigo-700/50 px-3 py-1 text-xs font-medium text-indigo-100 hover:bg-indigo-700/60 hover:text-white transition-colors"
     >
-      {value}
-    </button>
+      {title}
+    </Link>
   );
 }

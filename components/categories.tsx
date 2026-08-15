@@ -1,52 +1,62 @@
 "use client";
 
+import Link from "next/link";
+import { Code2, Paintbrush, TrendingUp, Headset } from "lucide-react";
 import { useJobs } from "@/context/jobcontext";
-import { Code2, Paintbrush, TrendingUp, ShieldCheck } from "lucide-react";
-import { useRouter } from "next/navigation";
 
-const CATEGORIES = [
+interface Category {
+  name: string;
+  keywords: string[];
+  icon: React.ElementType;
+  color: string;
+}
+
+const CATEGORIES: Category[] = [
   {
     name: "Software Development",
-    count: "140+ Jobs",
+    keywords: ["engineer", "developer", "frontend", "backend"],
     icon: Code2,
     color: "text-blue-600 bg-blue-50",
   },
   {
     name: "UI / UX & Design",
-    count: "85+ Jobs",
+    keywords: ["design"],
     icon: Paintbrush,
     color: "text-purple-600 bg-purple-50",
   },
   {
     name: "Marketing & Sales",
-    count: "60+ Jobs",
+    keywords: ["marketing", "sales"],
     icon: TrendingUp,
     color: "text-emerald-600 bg-emerald-50",
   },
   {
-    name: "Cybersecurity & Cloud",
-    count: "45+ Jobs",
-    icon: ShieldCheck,
+    name: "Customer Support",
+    keywords: ["support"],
+    icon: Headset,
     color: "text-amber-600 bg-amber-50",
   },
 ];
 
 export default function Categories() {
-  const { setFilters } = useJobs();
-  const router = useRouter();
+  const { jobs } = useJobs();
+
+  const countFor = (keywords: string[]) =>
+    jobs.filter((job) =>
+      keywords.some((kw) => job.title.toLowerCase().includes(kw)),
+    ).length;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {CATEGORIES.map((cat, i) => {
+      {CATEGORIES.map((cat) => {
         const Icon = cat.icon;
+        const count = countFor(cat.keywords);
+
         return (
-          <div
-            key={i}
-            onClick={() => {
-              setFilters((p) => ({ ...p, title: cat.name.split(" ")[0] }));
-              router.push("/jobs");
-            }}
-            className="group cursor-pointer bg-white p-6 rounded-xl border border-slate-200 hover:border-indigo-300 shadow-xs hover:shadow-md transition-all flex items-center gap-4"
+          <Link
+            key={cat.name}
+            href={`/jobs?title=${encodeURIComponent(cat.keywords[0])}`}
+            className="group bg-white p-6 rounded-xl border border-slate-200 hover:border-indigo-300 shadow-xs hover:shadow-md transition-all flex items-center gap-4"
           >
             <div
               className={`p-3 rounded-lg ${cat.color} group-hover:scale-105 transition-transform`}
@@ -57,9 +67,11 @@ export default function Categories() {
               <h3 className="font-semibold text-slate-900 text-sm group-hover:text-indigo-600 transition-colors">
                 {cat.name}
               </h3>
-              <span className="text-xs text-slate-500">{cat.count}</span>
+              <span className="text-xs text-slate-500">
+                {count} {count === 1 ? "open role" : "open roles"}
+              </span>
             </div>
-          </div>
+          </Link>
         );
       })}
     </div>

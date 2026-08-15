@@ -1,56 +1,68 @@
 "use client";
 
-import { useJobs } from "@/context/jobcontext";
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { MapPin, Search } from "lucide-react";
+import { Search, MapPin } from "lucide-react";
+import { useJobs } from "@/context/jobcontext";
 
 export default function Form() {
   const router = useRouter();
   const { setFilters } = useJobs();
-  const [searchTitle, setSearchTitle] = useState("");
-  const [searchLocation, setSearchLocation] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [title, setTitle] = useState("");
+  const [location, setLocation] = useState("");
+
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+
     setFilters((prev) => ({
       ...prev,
-      title: searchTitle,
-      location: searchLocation,
+      title,
+      location,
     }));
-    router.push("/jobs");
+
+    const params = new URLSearchParams();
+    if (title) params.set("title", title);
+    if (location) params.set("location", location);
+
+    router.push(
+      `/jobslisting${params.toString() ? `?${params.toString()}` : ""}`,
+    );
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="mt-10 max-w-4xl mx-auto bg-white rounded-2xl p-2.5 sm:p-3 shadow-2xl flex flex-col md:flex-row items-stretch gap-2 text-slate-800"
+      className="mt-8 mx-auto max-w-3xl bg-white rounded-2xl shadow-lg p-2 flex flex-col sm:flex-row gap-2"
     >
-      <div className="flex-1 flex items-center gap-3 px-3 py-2 border-b md:border-b-0 md:border-r border-slate-200">
-        <Search className="w-5 h-5 text-indigo-600 shrink-0" />
+      <div className="flex items-center flex-1 px-3 py-2.5 rounded-xl focus-within:bg-slate-50 transition-colors">
+        <Search className="w-5 h-5 text-slate-400 shrink-0" />
         <input
           type="text"
-          placeholder="Job title, skill, or company..."
-          value={searchTitle}
-          onChange={(e) => setSearchTitle(e.target.value)}
-          className="w-full bg-transparent text-sm focus:outline-none placeholder:text-slate-400"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Job title, keywords, or company"
+          className="w-full ml-3 text-sm text-slate-900 outline-none bg-transparent"
         />
       </div>
-      <div className="flex-1 flex items-center gap-3 px-3 py-2">
-        <MapPin className="w-5 h-5 text-indigo-600 shrink-0" />
+
+      <div className="hidden sm:block w-px bg-slate-200 my-1" />
+
+      <div className="flex items-center flex-1 px-3 py-2.5 rounded-xl focus-within:bg-slate-50 transition-colors">
+        <MapPin className="w-5 h-5 text-slate-400 shrink-0" />
         <input
           type="text"
-          placeholder="City, state, or 'Remote'..."
-          value={searchLocation}
-          onChange={(e) => setSearchLocation(e.target.value)}
-          className="w-full bg-transparent text-sm focus:outline-none placeholder:text-slate-400"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          placeholder="City, state, or remote"
+          className="w-full ml-3 text-sm text-slate-900 outline-none bg-transparent"
         />
       </div>
+
       <button
         type="submit"
-        className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-8 py-3.5 rounded-xl transition-all shadow-md hover:shadow-indigo-500/25 flex items-center justify-center gap-2"
+        className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-6 py-3 rounded-xl transition-colors shrink-0"
       >
-        <Search className="w-4 h-4" />
         Search Jobs
       </button>
     </form>

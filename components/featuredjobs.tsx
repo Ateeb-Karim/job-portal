@@ -1,15 +1,23 @@
 "use client";
 
 import { useJobs } from "@/context/jobcontext";
-import JobCard from "./jobcard";
+import JobCard from "@/components/jobcard";
 
 export default function FeaturedJobs() {
   const { jobs } = useJobs();
-  const featuredJobs = jobs.filter((job) => job.isFeatured).slice(0, 6);
+  const featured = jobs.filter((job) => job.isFeatured).slice(0, 6);
+
+  if (featured.length === 0) {
+    return (
+      <p className="text-sm text-slate-400">
+        No featured jobs available right now.
+      </p>
+    );
+  }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {featuredJobs.map((job) => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {featured.map((job) => (
         <JobCard key={job.id} job={job} />
       ))}
     </div>
