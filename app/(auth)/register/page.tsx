@@ -50,7 +50,7 @@ export default function RegisterPage() {
       role,
     });
 
-    router.push(role === "employer" ? "/dashboard/employer" : "/jobslsiting");
+    router.push(role === "employer" ? "/dashboard/employer" : "/jobslisting");
   };
 
   return (
@@ -178,7 +178,7 @@ export default function RegisterPage() {
                   />
                   <button
                     type="button"
-                    onClick={() => setShowPassword((v) => !v)}
+                    onClick={() => setShowPassword((pass) => !pass)}
                     className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600"
                     aria-label={
                       showPassword ? "Hide password" : "Show password"
