@@ -74,7 +74,7 @@ function JobsPageContent() {
   const handleResetAll = () => {
     resetFilters();
     if (showOnlySaved) {
-      router.replace("/jobslisting");
+      router.replace("/joblisting");
     }
   };
 
@@ -128,7 +128,7 @@ function JobsPageContent() {
                   placeholder="e.g. Next.js, Frontend"
                   value={filters.title}
                   onChange={handleTitleChange}
-                  className="w-full pl-9 pr-3 py-2 border rounded-lg text-xs text-slate-900 focus:outline-none focus:border-indigo-500 focus:bg-white transition-colors"
+                  className="w-full pl-9 pr-3 py-2 bg-slate-50 border rounded-lg text-xs text-slate-900 focus:outline-none focus:border-indigo-500 focus:white transition-colors"
                 />
                 {filters.title && (
                   <button
@@ -152,7 +152,7 @@ function JobsPageContent() {
                   placeholder="City or Remote"
                   value={filters.location}
                   onChange={handleLocationChange}
-                  className="w-full pl-9 pr-3 py-2 bg-slate-50 border rounded-lg text-xs text-slate-900 focus:outline-none transition-colors"
+                  className="w-full pl-9 pr-3 py-2 bg-slate-50 border rounded-lg text-xs text-slate-900 focus:outline-none focus:border-indigo-500 focus:white transition-colors"
                 />
                 {filters.location && (
                   <button
@@ -196,7 +196,11 @@ function JobsPageContent() {
               <div className="pt-4 border-t border-slate-100">
                 <button
                   onClick={() =>
-                    router.push(showOnlySaved ? "/jobs" : "/jobs?saved=true")
+                    router.push(
+                      showOnlySaved
+                        ? "/jobslisting"
+                        : "/jobslisting?saved=true",
+                    )
                   }
                   className={`w-full flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-semibold border transition-all ${
                     showOnlySaved

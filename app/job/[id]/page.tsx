@@ -41,7 +41,7 @@ export default function JobDetailsPage() {
     <div className="bg-slate-50 min-h-screen py-8">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <Link
-          href="/jobs"
+          href="/jobslisting"
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-indigo-600 transition-colors mb-6"
         >
           <ArrowLeft className="w-3.5 h-3.5" />

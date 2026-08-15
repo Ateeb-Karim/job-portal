@@ -127,7 +127,7 @@ export default function Navbar() {
               Sign In
             </Link>
             <Link
-              href="/signup"
+              href="/register"
               className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow-xs hover:shadow transition-all"
             >
               Get Started
@@ -233,7 +233,7 @@ export default function Navbar() {
               Sign In
             </Link>
             <Link
-              href="/signup"
+              href="/register"
               onClick={() => setIsMobileMenuOpen(false)}
               className="w-full text-center py-2.5 bg-indigo-600 font-semibold text-white text-sm rounded-lg shadow-xs"
             >

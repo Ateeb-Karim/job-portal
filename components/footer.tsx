@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Briefcase, Globe } from "lucide-react";
-import { FiGithub, FiTwitter, FiLinkedin, FiGlobe } from "react-icons/fi";
+import { FiGithub, FiTwitter, FiLinkedin } from "react-icons/fi";
 
 export default function Footer() {
   return (
@@ -48,7 +48,7 @@ export default function Footer() {
             <ul className="space-y-2.5 text-sm text-slate-400">
               <li>
                 <Link
-                  href="/jobs"
+                  href="/jobslisting"
                   className="hover:text-white transition-colors"
                 >
                   Browse Jobs
@@ -56,7 +56,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/jobs?type=Remote"
+                  href="/jobslisting?type=Remote"
                   className="hover:text-white transition-colors"
                 >
                   Remote Jobs
@@ -64,7 +64,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/jobs?type=Internship"
+                  href="/jobslisting?type=Internship"
                   className="hover:text-white transition-colors"
                 >
                   Internships
@@ -72,14 +72,14 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/signup"
+                  href="/register"
                   className="hover:text-white transition-colors"
                 >
                   Create Candidate Profile
                 </Link>
               </li>
             </ul>
-          </div>{" "}
+          </div>
           <div>
             <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
               For Employers
@@ -103,7 +103,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/signup"
+                  href="/register"
                   className="hover:text-white transition-colors"
                 >
                   Employer Registration
