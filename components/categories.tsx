@@ -55,7 +55,7 @@ export default function Categories() {
         return (
           <Link
             key={cat.name}
-            href={`/jobs?title=${encodeURIComponent(cat.keywords[0])}`}
+            href={`/jobslisting?title=${encodeURIComponent(cat.keywords[0])}`}
             className="group bg-white p-6 rounded-xl border border-slate-200 hover:border-indigo-300 shadow-xs hover:shadow-md transition-all flex items-center gap-4"
           >
             <div

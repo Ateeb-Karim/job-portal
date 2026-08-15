@@ -28,7 +28,7 @@ export default function JobCard({ job }: JobCardProps) {
             </div>
             <div>
               <h3 className="font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors text-base line-clamp-1">
-                <Link href={`/jobs/${job.id}`}>{job.title}</Link>
+                <Link href={`/job/${job.id}`}>{job.title}</Link>
               </h3>
               <p className="text-xs font-medium text-slate-500 flex items-center gap-1 mt-0.5">
                 <Building2 className="w-3.5 h-3.5" />
@@ -81,7 +81,7 @@ export default function JobCard({ job }: JobCardProps) {
           Posted {job.postedDate}
         </span>
         <Link
-          href={`/jobs/${job.id}`}
+          href={`/job/${job.id}`}
           className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition-colors"
         >
           View Details →

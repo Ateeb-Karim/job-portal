@@ -15,7 +15,7 @@ export default function Button({ value, title, type = "All" }: ButtonProps) {
 
   return (
     <Link
-      href={`/jobs?${params.toString()}`}
+      href={`/jobslisting?${params.toString()}`}
       className="inline-flex items-center rounded-full bg-indigo-800/50 border border-indigo-700/50 px-3 py-1 text-xs font-medium text-indigo-100 hover:bg-indigo-700/60 hover:text-white transition-colors"
     >
       {title}

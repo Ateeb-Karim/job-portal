@@ -60,7 +60,7 @@ export default function HomePage() {
             </p>
           </div>
           <Link
-            href="/jobs"
+            href="/jobslisting"
             className="flex items-center gap-1 text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors"
           >
             View All Jobs <ArrowRight className="w-4 h-4" />
