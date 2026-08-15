@@ -11,6 +11,7 @@ import {
   X,
   PlusCircle,
   LayoutDashboard,
+  FileText,
 } from "lucide-react";
 
 export default function Navbar() {
@@ -54,20 +55,53 @@ export default function Navbar() {
             >
               Find Jobs
             </Link>
+            <Link
+              href="/companies"
+              className={`text-sm font-medium transition-colors ${
+                isActive("/companies")
+                  ? "text-indigo-600 font-semibold"
+                  : "text-slate-600 hover:text-indigo-600"
+              }`}
+            >
+              Companies
+            </Link>
+            <Link
+              href="/about"
+              className={`text-sm font-medium transition-colors ${
+                isActive("/about")
+                  ? "text-indigo-600 font-semibold"
+                  : "text-slate-600 hover:text-indigo-600"
+              }`}
+            >
+              About
+            </Link>
 
             {userRole === "candidate" && (
-              <Link
-                href="/jobslisting?saved=true"
-                className="flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors relative"
-              >
-                <Heart className="w-4 h-4 text-rose-500 fill-rose-500" />
-                <span>Saved Jobs</span>
-                {savedJobIds.length > 0 && (
-                  <span className="bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
-                    {savedJobIds.length}
-                  </span>
-                )}
-              </Link>
+              <>
+                <Link
+                  href="/dashboard/candidate"
+                  className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${
+                    isActive("/dashboard/candidate")
+                      ? "text-indigo-600 font-semibold"
+                      : "text-slate-600 hover:text-indigo-600"
+                  }`}
+                >
+                  <FileText className="w-4 h-4" />
+                  My Applications
+                </Link>
+                <Link
+                  href="/jobslisting?saved=true"
+                  className="flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors relative"
+                >
+                  <Heart className="w-4 h-4 text-rose-500 fill-rose-500" />
+                  <span>Saved Jobs</span>
+                  {savedJobIds.length > 0 && (
+                    <span className="bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                      {savedJobIds.length}
+                    </span>
+                  )}
+                </Link>
+              </>
             )}
 
             {userRole === "employer" && (
@@ -166,14 +200,24 @@ export default function Navbar() {
           </Link>
 
           {userRole === "candidate" && (
-            <Link
-              href="/jobslisting?saved=true"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="flex items-center gap-2 py-2 text-base font-medium text-slate-700 hover:text-indigo-600"
-            >
-              <Heart className="w-4 h-4 text-rose-500 fill-rose-500" />
-              Saved Jobs ({savedJobIds.length})
-            </Link>
+            <>
+              <Link
+                href="/dashboard/candidate"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center gap-2 py-2 text-base font-medium text-slate-700 hover:text-indigo-600"
+              >
+                <FileText className="w-4 h-4" />
+                My Applications
+              </Link>
+              <Link
+                href="/jobslisting?saved=true"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center gap-2 py-2 text-base font-medium text-slate-700 hover:text-indigo-600"
+              >
+                <Heart className="w-4 h-4 text-rose-500 fill-rose-500" />
+                Saved Jobs ({savedJobIds.length})
+              </Link>
+            </>
           )}
 
           {userRole === "employer" && (
